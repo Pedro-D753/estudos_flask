@@ -1,10 +1,12 @@
 from flask import Flask
-from connection import db, Config
+from connection import db, Config, ma
+from flask_marshmallow import Marshmallow
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     db.init_app(app)
+    ma.init_app(app)
     
     
     @app.get('/')

@@ -2,7 +2,7 @@ from connection import db
 from passlib import CryptContext
 from sqlalchemy import Column, Integer, String, Float, DateTime
 
-class Registro(db.Model):
+class RegistroModel(db.Model):
     __tablename__ == 'produtos'
 
     id_registro = db.Column(Integer, primary_key=True, autoincrement=True)

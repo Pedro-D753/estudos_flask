@@ -2,7 +2,7 @@ from connection import db
 from passlib import CryptContext
 from sqlalchemy import Column, Integer, String
 
-class Usuario(db.Model):
+class UsuarioModel(db.Model):
     __tablename__ == 'usuarios'
 
     id = db.Column(Integer, primary_key=True, autoincrement=True)
