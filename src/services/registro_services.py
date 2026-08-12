@@ -26,7 +26,7 @@ def deletar_registro():
     return False
     
     
-def editar_produto(id, novo_registro):
+def editar_registro(id, novo_registro):
     registro =  RegistroModel.query.get(id)
     if registro:
         registro.dth_registro = novo_registro['dth_registro']

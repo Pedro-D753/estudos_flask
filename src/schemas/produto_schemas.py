@@ -22,7 +22,8 @@ class ProdutoSchema(ma.SQLAlchemyAutoSchema):
     )
 
 
-produto_schema = ProdutoSchema(many=True)
+produtos_schema = ProdutoSchema(many=True)
+produto_schema = ProdutoSchema()
 
 nome_produto = fields.String(
     required=True,

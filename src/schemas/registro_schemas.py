@@ -21,3 +21,7 @@ class RegistroSchema(ma.SQLAlchemyAutoSchema):
         
         if value > agora:
             raise ValidationError("A data de registro não pode estar no futuro.")
+
+
+registro_schema = RegistroSchema()
+registros_schemas = RegistroSchema(many=True)

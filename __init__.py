@@ -6,6 +6,9 @@ from flask_restful import Api
 ma = Marshmallow()
 api = Api()
 
+from models.usuario_model import UsuarioModel
+from views import usuario_view
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
