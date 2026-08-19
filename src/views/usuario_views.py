@@ -9,6 +9,21 @@ from src import api
 
 class UsuarioList(Resource):
     def get(self):
+        """
+        Lista todos os usuários
+        ---
+
+        tags:
+        - Usuários
+        responses:
+          200:
+            description: Lista de Usuários
+          404:
+            description: Nenhum usuário encontrado
+        """
+
+
+
         usuarios = usuario_services.listar_usuario()
 
         if not usuarios:
@@ -17,6 +32,34 @@ class UsuarioList(Resource):
         return make_response(jsonify(usuarios_schema.dump(usuarios)), 200)
 
     def post(self):
+        """
+        Cadastrar um novo usuário
+        ---
+        
+        tags:
+        -- Usuários
+        parameters:
+          - in: body
+          name: body
+          required: True
+          schema: 
+            type: object
+            properties:
+              nome:
+                type: string
+                example: Pedro D.
+              email:
+                type: string
+                example: pedro@email.com
+              senha: senha678
+        responses:
+          201:
+            description: Usuário cadastrado
+          400:
+            description: Erro de validação
+          409:
+            description: Email já cadastrado
+        """    
         try:
             usuario = usuarios_schema.load(request.get_json())
         except ValidationError as err:
@@ -42,7 +85,34 @@ api.add_resource(UsuarioList, '/usuarios')
 
 class UsuarioResource(Resource):
 
+    """"""
+
     def get(self, id_usuario):
+
+        """
+        BUscar usuário por ID
+        ---
+        tags:
+          - Usuários
+        parameters:
+        - name
+        int: path
+        type: integer
+        required: True
+        schema:
+          type: object
+          properties:
+            nome: 
+              type: string
+            email:
+              type: string
+            senha:
+              type: string
+
+        responses:
+
+
+        """
         usuario = usuario_services.listar_usuario_por_id(id_usuario)
 
         if not usuario:
