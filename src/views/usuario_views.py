@@ -105,7 +105,7 @@ class UsuarioResource(Resource):
         if not usuario:
             return {"message": "Usuario não encontrado"}, 404
 
-def put(self, id_usuario):
+    def put(self, id_usuario):
         """
         Editar usuarios
         ---
@@ -131,10 +131,8 @@ def put(self, id_usuario):
            404:
             description: usuario não encontrado
         """
-
-
 try:
-    novo_usuario = usuarios_schema.load(request.get_json())
+       novo_usuario = usuarios_schema.load(request.get_json())
 except ValidationError as err:
 
 usuario = usuario_services.editar_usuario(
@@ -145,10 +143,11 @@ usuario = usuario_services.editar_usuario(
         }
     )
 if not usuario:
-  return {"message": "Usuario não encontrado"}, 404
+   return {"message": "Usuario não encontrado"}, 404
 
 
 def delete(self, id_usuario):
+  
     """
     Deletar usuario
     ---

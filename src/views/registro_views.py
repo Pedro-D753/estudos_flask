@@ -113,29 +113,27 @@ class RegistroResource(Resource):
         
     def put(self, id_registro):
         """
-        Editar usuarios
+        Editar registro
         ---
         tags:
-          -- usuarios
+          - Registros
         parameters
-            name: id_usuario
+            name: id_registro
             in: integer
             type: integer
             required: True
             schema:
               type: object
               properties:
-                nome:
-                  type: string
-                emal:
-                  type: string
-                senha:
+                data_registro:
+                  type: datetime
+                tpo:
                   type: string
         responses:
            200:
-            description: Update 
+            description: Registro editado com sucesso 
            404:
-            description: usuario não encontrado
+            description: Registro não encontrado
         """
 
         try:
@@ -143,15 +141,10 @@ class RegistroResource(Resource):
 
         except ValidationError as err:
 
-         registro = registro_services.editar_registro
-         (
-            id_usuario = {
-                "nome":novo_usuario.nome,
-                "email":novo_usuario.email,
-                "senha":novo_usuario.senha
-            }
-        )
-         if not registro:
+         novo_registro = registro_services.editar_registro
+         
+        (id_registro = {"data_registro": nova_data_regitstro.data_registro, "tipo": novo_tipo.tipo})
+        if not novo_registro:
              return{"message": "Registro não encontrado"}, 404
 
         

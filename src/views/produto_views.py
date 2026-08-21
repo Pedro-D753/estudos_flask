@@ -133,15 +133,15 @@ class ProdutoResource(Resource):
               properties:
                 nome_produto:
                   type: string
-                emal:
-                  type: string
-                senha:
-                  type: string
+                qtd_estoque:
+                  type: int
+                vlr_unitario:
+                  type: float
         responses:
            200:
-            description: Usuário editado com sucesso ! 
+            description: Produto editado com sucesso ! 
            404:
-            description: Usuário não encontrado
+            description: Produto não encontrado
         """
 
 
