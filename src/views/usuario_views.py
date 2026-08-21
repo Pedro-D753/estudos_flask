@@ -45,20 +45,17 @@ class UsuarioList(Resource):
           schema: 
             type: object
             properties:
-              nome:
+              data_registro:
+                type: datetime
+                example: 21/08/2026
+              tipo:
                 type: string
-                example: Pedro D.
-              email:
-                type: string
-                example: pedro@email.com
-              senha: senha678
+                example: Almoxarifado
         responses:
           201:
-            description: Usuário cadastrado
+            description: Registro cadastrado
           400:
             description: Erro de validação
-          409:
-            description: Email já cadastrado
         """    
         try:
             usuario = usuarios_schema.load(request.get_json())
@@ -87,7 +84,7 @@ class UsuarioResource(Resource):
     def get(self, id_usuario):
 
         """
-        BUscar usuário por ID
+        Buscar usuário por ID
         ---
         tags:
           - Usuários

@@ -164,20 +164,20 @@ class ProdutoResource(Resource):
         
     def delete(self, id_produto):
         """
-        Deletar usuario
+        Deletar produto
         ---
         tags:
-          - usuario
+          - Produtos
         parametes:
-            name: id_usuario
+            name: id_produto
             in: path
             type: integer
             required: True
         responses:
            200:
-            description: usuario deletado
+            description: Produto deletado com sucesso
            404:
-           description: usuario nao encontrado
+           description: Produto não encontrado
         
         """ 
 

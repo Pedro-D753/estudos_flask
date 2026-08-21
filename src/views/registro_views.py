@@ -9,6 +9,19 @@ from src import api
 
 class RegistroList(Resource):
     def get(self):
+        """
+        Lista todos os registros
+        ---
+
+        tags:
+        - Registros
+        responses:
+          200:
+            description: Lista de Registros
+          404:
+            description: Nenhum registro encontrado
+        """
+
         registros = registro_services.listar_registro()
 
         if not registros:
@@ -17,6 +30,35 @@ class RegistroList(Resource):
         return make_response(jsonify(registro_schema.dump(registros)), 200)
 
     def post(self):
+        """
+        Cadastrar um novo registro
+        ---
+        
+        tags:
+        -- Registros
+        parameters:
+          - in: body
+          name: body
+          required: True
+          schema: 
+            type: object
+            properties:
+              nome:
+                type: string
+                example: Pedro D.
+              email:
+                type: string
+                example: pedro@email.com
+              senha: senha678
+        responses:
+          201:
+            description: Usuário cadastrado
+          400:
+            description: Erro de validação
+          409:
+            description: Email já cadastrado
+        """    
+
         try:
             registro = registro_schema.load(request.get_json())
         except ValidationError as err:
@@ -43,6 +85,26 @@ api.add_resource(RegistroList, '/registros')
 class RegistroResource(Resource):
 
     def get(self, id_registro):
+        """
+        Buscar registro por ID
+        ---
+        tags:
+          - Registro
+        parameters:
+        - name
+        int: path
+        type: integer
+        required: True
+        schema:
+          type: object
+          properties:
+            data_registro: 
+              type: datetime
+            tipo:
+              type: string
+        responses:
+
+        """
         registro = registro_services.listar_registro_por_id(id_registro)
 
         if not registro:
@@ -50,6 +112,32 @@ class RegistroResource(Resource):
 
         
     def put(self, id_registro):
+        """
+        Editar usuarios
+        ---
+        tags:
+          -- usuarios
+        parameters
+            name: id_usuario
+            in: integer
+            type: integer
+            required: True
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                emal:
+                  type: string
+                senha:
+                  type: string
+        responses:
+           200:
+            description: Update 
+           404:
+            description: usuario não encontrado
+        """
+
         try:
             novo_registro = registro_schema.load(request.get_json())
 
@@ -68,6 +156,24 @@ class RegistroResource(Resource):
 
         
     def delete(self, id_registro):
+        """
+        Deletar registro
+        ---
+        tags:
+          - registro
+        parametes:
+            name: id_registro
+            in: path
+            type: integer
+            required: True
+        responses:
+           200:
+            description: Registro deletado com sucesso
+           404:
+           description: Registro não encontrado
+        
+        """
+
         if registro_services.deletar_registro(id_registro):
             return {
                 "message" : 'Registro deletado com sucesso'
