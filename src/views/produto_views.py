@@ -9,6 +9,19 @@ from src import api
 
 class ProdutoList(Resource):
     def get(self):
+        """
+        Lista todos os produtos
+        ---
+
+        tags:
+        - Produtos
+        responses:
+          200:
+            description: Lista de Produtos
+          404:
+            description: Nenhum produto encontrado
+        """
+
         produtos = produto_services.listar_produto()
 
         if not produtos:
@@ -17,6 +30,34 @@ class ProdutoList(Resource):
         return make_response(jsonify(produtos_schema.dump(produtos)), 200)
 
     def post(self):
+        """
+        Cadastrar um novo produto
+        ---
+                
+        tags:
+        -- Produto
+        parameters:
+        - in: body
+        name: body
+        required: True
+        schema: 
+        type: object
+        properties:
+        nome_produto:
+        type: string
+        example: produto
+        uni_medida:
+        type: string
+        example: cm
+        vlr_unitario: 5
+        responses:
+        201:
+        description: Produto cadastrado
+        400:
+        description: Erro de validação
+    
+        """    
+
         try:
             produto = produtos_schema.load(request.get_json())
         except ValidationError as err:
@@ -42,19 +83,74 @@ api.add_resource(ProdutoList, '/produtos')
 class ProdutoResource(Resource):
 
     def get(self, id_produto):
-        produto = produto_services.listar_produto_por_id(id_produto)
 
-        if not produto:
-            return{"message": "Produto não encontrado"}, 404
+
+     """
+     Buscar produto por ID
+     ---
+     tags:
+     - Produto
+     parameters:
+     - name
+     int: path
+     type: integer
+     required: True
+     schema:
+     type: object
+     properties:
+     nome_produto: 
+     type: string
+     uni_medida:
+     type: string
+     vlr_unitario:
+     type: int 
+     qtd_estoque:
+     type: int
+     responses:
+
+    """
+
+
+     produto = produto_services.listar_produto_por_id(id_produto)
+
+     if not produto:
+       return{"message": "Produto não encontrado"}, 404
 
         
     def put(self, id_produto):
-        try:
-            novo_produto = produtos_schema.load(request.get_json())
+     """
+        Editar produtos
+        ---
+        tags:
+          -- Produtos
+        parameters
+            name: id_produto
+            in: integer
+            type: integer
+            required: True
+            schema:
+              type: object
+              properties:
+                nome_produto:
+                  type: string
+                emal:
+                  type: string
+                senha:
+                  type: string
+        responses:
+           200:
+            description: Usuário editado com sucesso ! 
+           404:
+            description: Usuário não encontrado
+        """
 
-        except ValidationError as err:
 
-         produto = produto_services.editar_usuario(
+     try:
+         novo_produto = produtos_schema.load(request.get_json())
+
+     except ValidationError as err:
+
+      produto = produto_services.editar_usuario(
             id_produto = {
                 "nome_produto":novo_produto.nome_produto,
                 "uni_medida":novo_produto.uni_medida,
@@ -62,11 +158,29 @@ class ProdutoResource(Resource):
                 "qtd_estoque":novo_produto.qtd_estoque
             }
         )
-         if not produto:
+     if not produto:
              return{"message": 'Produto não encontrado'}, 404
 
         
     def delete(self, id_produto):
+        """
+        Deletar usuario
+        ---
+        tags:
+          - usuario
+        parametes:
+            name: id_usuario
+            in: path
+            type: integer
+            required: True
+        responses:
+           200:
+            description: usuario deletado
+           404:
+           description: usuario nao encontrado
+        
+        """ 
+
         if produto_services.deletar_produto(id_produto):
             return {
                 "message" : 'Produto deletado com sucesso'

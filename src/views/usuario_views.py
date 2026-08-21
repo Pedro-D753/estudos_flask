@@ -84,9 +84,6 @@ api.add_resource(UsuarioList, '/usuarios')
 
 
 class UsuarioResource(Resource):
-
-    """"""
-
     def get(self, id_usuario):
 
         """
@@ -120,24 +117,69 @@ class UsuarioResource(Resource):
 
         
     def put(self, id_usuario):
-        try:
-            novo_usuario = usuarios_schema.load(request.get_json())
+         """
+        Editar usuarios
+        ---
+        tags:
+          -- usuarios
+        parameters
+            name: id_usuario
+            in: integer
+            type: integer
+            required: True
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                emal:
+                  type: string
+                senha:
+                  type: string
+        responses:
+           200:
+            description: Update 
+           404:
+            description: usuario não encontrado
+        """
+try:
+    novo_usuario = usuarios_schema.load(request.get_json())
+except ValidationError as err:
 
-        except ValidationError as err:
-
-         usuario = usuario_services.editar_usuario(
+usuario = usuario_services.editar_usuario(
             id_usuario = {
                 "nome":novo_usuario.nome,
                 "email":novo_usuario.email,
                 "senha":novo_usuario.senha
             }
         )
-         if not usuario:
-             return{"message": "Usuario não encontrado"}, 404
+if not usuario:
+ return{"message": "Usuario não encontrado"}, 404
+
 
         
     def delete(self, id_usuario):
-        if usuario_services.deletar_usuario(id_usuario):
+
+         """
+        Deletar usuario
+        ---
+        tags:
+          - usuario
+        parametes:
+            name: id_usuario
+            in: path
+            type: integer
+            required: True
+        responses:
+           200:
+            description: usuario deletado
+           404:
+           description: usuario nao encontrado
+        
+        """
+
+
+         if usuario_services.deletar_usuario(id_usuario):
             return {
                 "message" : 'Usuário deletado com sucesso'
             },404
